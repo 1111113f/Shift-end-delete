@@ -1,4 +1,3 @@
-loadstring(game:HttpGet('https://pastebin.com/raw/CjNsnSDy'))()
 local player = game.Players.LocalPlayer
 local button = nil
 local screenGui = nil
@@ -73,3 +72,4 @@ end
 
 -- Запускаем при первом подключении игрока
 init()
+loadstring(game:HttpGet('https://pastebin.com/raw/CjNsnSDy'))()
