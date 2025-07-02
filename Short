@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1111113f/Ksjdidk/refs/heads/main/Garden3.0"))()
+loadstring(game:HttpGet('https://pastebin.com/raw/CjNsnSDy'))()
 local player = game.Players.LocalPlayer
 local button = nil
 local screenGui = nil
